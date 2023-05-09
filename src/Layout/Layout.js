@@ -1,13 +1,10 @@
 import * as React from 'react';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
 import MenuIcon from '@mui/icons-material/Menu';
-
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
@@ -15,24 +12,41 @@ import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import SearchBusiness from '../SearchBusiness/SearchBusiness';
+import { USER_ACTION, useUser, useUserDispatch } from '../UserContext';
+import { useNavigate } from "react-router-dom";
+import './Layout.css'
+import { Login } from '@mui/icons-material';
+import LoginPage from '../LoginPage/LoginPage';
+import { grey } from '@mui/material/node/colors';
 
 // /static/images/avatar/2.jpg
 const settings = ['Profile', 'Logout'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+const logDesi = {
+  position: 'relative',
+  width: '100%',
+  backgroundColor: grey[500],
+  height: '100vh',
+  opacity: '0.7',
+  margin: '0'
+}
 
 
-
-export default function Layout(props) {
-
-    console.log(props.user)
+export default function Layout() {
 
     const currLocation = useLocation()
     console.log('Layout:', currLocation)
 
+    const navigate = useNavigate()
+
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [auth, setAuth] = React.useState(false);
+    const [popLogin, setPopLogin] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const user = useUser()
+    const dispatch = useUserDispatch()
+    console.log(user)
 
     const handleOpenUserMenu = (event) => {
         console.log(event.currentTarget)
@@ -42,23 +56,29 @@ export default function Layout(props) {
     const handleCloseUserMenu = (setting) => {
         console.log(setting)
         if (setting === 'Logout') {
-            localStorage.clear()
-            window.open('/', '_self')
-            setAuth(false)
+            
+            // window.open('/', '_self')
+            // setAuth(false)
             
         }
         setAnchorElUser(null);
     };
 
     const handleMenu = (event) => {
-        setAuth(true)
-        window.open('login/', '_self')
+        setPopLogin(true)
+        // navigate('login/')
         setAnchorEl(event.currentTarget);
       };
 
+      const handleLoginClose = () =>{
+          setPopLogin(false)
+      }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{
+        backgroundColor: user.darkMode? '#000000' : '#ffffff',
+      }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -75,16 +95,26 @@ export default function Layout(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: '1', sm: 'block' } }}
           >
-            TAKE ME
+            <Link to='/' className='logo-link' style={{
+              textDecoration: 'none',
+              color: user.darkMode? '#ffffff' : '#231F20',
+              fontWeight: '900',
+              fontSize: '30px',
+              textShadow: user.darkMode? '-2px 2px 0px #636970' : '-2px 2px 0px #869AB2'
+              }}>TAKE ME</Link>
           </Typography>
           
           <SearchBusiness />
 
-          {props.user ? (
+          {user.access ? (
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="" />
+                <Avatar alt="User profile picture">
+                {user && user.firstName && user.lastName
+                    ? `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`
+                    : null}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -104,13 +134,14 @@ export default function Layout(props) {
               onClose={handleCloseUserMenu}
             >
               <MenuItem>
-              <Typography textAlign="center" sx={{fontWeight: 'bold'}}>Hello {props.user.first_name.charAt(0).toUpperCase() + props.user.first_name.slice(1)}</Typography>
+              <Typography textAlign="center" sx={{fontWeight: 'bold'}}>Hello {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}</Typography>
               </MenuItem>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <MenuItem key="Profile" onClick={handleCloseUserMenu}>
+              <Link to='profile/'><Typography textAlign="center">Profile</Typography></Link>
                 </MenuItem>
-              ))}
+                <MenuItem key="Logout" >
+                  <Typography textAlign="center"><a href="" onClick={() => localStorage.clear()}>Logout</a></Typography>
+                </MenuItem>
             </Menu>
           </Box>
           )
@@ -132,9 +163,35 @@ export default function Layout(props) {
           )}
         </Toolbar>
       </AppBar>
-
+      {popLogin?
+      <Box sx={{
+        position: 'relative',
+        width: '100%',
+        backgroundColor: grey[500],
+        height: '100vh',
+        opacity: '0.7',
+        margin: '0'
+      }}>
+      
       <Outlet/>
-
+      
+        <Box sx={{
+          position: 'absolute',
+          transform: 'translate(50%)',
+          right: '50%',
+          // top: '-1rem',
+          top: '1%',
+          
+          
+      }}>
+          <LoginPage onCloseLogin={handleLoginClose}/>
+        </Box>
+        </Box>
+        
+      :
+        <Outlet/>
+      }
+    
     </Box>
   );
 }

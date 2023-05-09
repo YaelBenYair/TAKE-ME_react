@@ -6,6 +6,8 @@ export const LOGIN = `${HOSTNAME}/auth/token/`
 export const SIGNUP = `${HOSTNAME}/auth/signup/`
 export const REFRESH = `${HOSTNAME}/auth/token/refresh/`
 export const USERBUSINESS = `${HOSTNAME}/auth/business/`
+export const CHOOSEME = `${HOSTNAME}/business/choose_me/`
+export const CHALLENGEME = `${HOSTNAME}/business/challenge_me/`
 
 
 

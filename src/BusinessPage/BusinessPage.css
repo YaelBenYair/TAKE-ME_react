@@ -1,0 +1,87 @@
+.MainBusinessDiv{
+    height: 100vh;
+    width: 100vw;
+    background: lightgray;
+    overflow-x: hidden;
+}
+
+.business-container{
+    width: 90%;
+    height: 100vh;
+    background: white;   
+    margin: auto;   
+}
+
+.top-portion{
+    height: 25%;
+    width: 100%;
+    position: relative;
+} 
+
+.businessName{
+    text-align: center;
+    font-weight: 500;
+    width: 100%;
+    position: absolute;
+    bottom: -12rem;
+    font-size: 2rem;
+    color: black;
+}
+
+.business-profile-bg-image{
+    height: 80%;
+    width: 100%;
+    background: #4dd6b6;
+    overflow: hidden;
+}
+#prf-bg-img{
+    /* height: 100; */
+    width: 100%;
+    margin-top: -30rem;
+    object-fit: cover;
+}
+
+.business-logo-img{
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+    transform: translate(50%);
+    right: 50%;
+    background: #26343D;
+    bottom:-8rem; 
+
+}
+#prf-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+/* @media screen and (min-width: 800px) {
+    .business-logo-img{
+        height: 300px;
+        width: 300px;
+        bottom:-8rem;
+    }
+} */
+@media screen and (max-width: 800px) {
+    .business-container{
+        width: 100%;
+    }
+    .business-logo-img{
+        height: 200px;
+        width: 200px;
+        bottom:-3rem;
+    }
+    .businessName{
+        bottom: -6rem;
+    }
+    #prf-bg-img{
+        height: 100%;
+        width: 100%;
+        margin-top: 0;
+        object-fit: cover;
+    }
+}
