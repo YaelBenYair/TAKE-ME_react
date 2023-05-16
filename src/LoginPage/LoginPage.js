@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import { LOGIN, SIGNUP } from "../urls"
+import { GOOGLEAUTH, LOGIN, SIGNUP } from "../urls"
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import './LoginPage.css'
 import styled from "styled-components"
@@ -11,6 +11,7 @@ import LoginSignupRequest from "./LoginSignupRequest"
 import CloseIcon from '@mui/icons-material/Close';
 import SignUp from "../SignUp/SignUp"
 import Login from "../Login/Login"
+import { GoogleLogin } from '@react-oauth/google';
 
 
 const s = {
@@ -98,17 +99,6 @@ export default function LoginPage({onCloseLogin}) {
         }catch(error){
             console.log(error)
         }
-
-        // axios.post(SIGNUP, {...inpust})
-        // .then((responseData) => {
-        //     if (responseData.status === 200) {
-        //         response = await LoginSignupRequest(inpust)
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log(error)
-        //     setErrorText(error.response.data.detail)
-        // })
     }
 
     const handleSignUpSwichLogin = () => {
@@ -149,9 +139,9 @@ export default function LoginPage({onCloseLogin}) {
                     sx={{ 
                         // flexGrow: 1, 
                         display: { xs: '1', sm: 'block' },
-                        color: user.darkMode ? '#ffffff' : '#231F20',
+                        color: '#CFB4B9',
                         fontWeight: '900',
-                        textShadow: user.darkMode ? '-2px 2px 0px #636970' : '-2px 2px 0px #869AB2',
+                        textShadow: '-2px 2px 0px #543D46',
                         margin: '0',
                         textAlign: 'center',
                 }}
@@ -163,18 +153,27 @@ export default function LoginPage({onCloseLogin}) {
                 :
                     <Login onCloseLogin={onCloseLogin}/>
                 }
-                {/* <form onSubmit={isSignup? handleSubmitSignup : handleSubmitLogin} className="form-style">
-                {isSignup && 
-                <><TextField sx={s} name="first_name" value={inpust.first_name} onChange={handleChange} margin="normal" type="text" variant="outlined" placeholder="Name" textAlign="center" required/>
-                <TextField sx={s} name="last_name" value={inpust.last_name} onChange={handleChange} margin="normal" type="text" variant="outlined" placeholder="Last name" required/></>
-                }
-                <TextField sx={s} name={isSignup? "email" : "username"} value={isSignup? inpust.email : inpust.username} onChange={handleChange} margin="normal" type="email" variant="outlined" placeholder="Email" required/>
-                <TextField sx={s} name="password" value={inpust.password} onChange={handleChange} margin="normal" type="password" variant="outlined" placeholder="Password" required/>
-                <Button sx={{marginTop: 1, width: "210px", borderRadius: "30px", backgroundColor: "#464A50"}} 
-                type="submit" maxWidth='210px' variant="contained" color="primary" size="large">{isSignup? "Signup" : "Login"}</Button>
-                </form> */}
+                
                 <Button onClick={() => setIsSignup(!isSignup)}>Change to {isSignup? "Login" : "Signup"}</Button>
                 
+
+                <GoogleLogin
+                onSuccess={async credentialResponse => {
+                    console.log(credentialResponse);
+                    const response = await axios.post(GOOGLEAUTH,
+                        {},
+                        {headers: {'Authorization': credentialResponse.credential}})
+                    localStorage.setItem('access', response.data.access);
+                    localStorage.setItem('refresh', response.data.refresh);
+                    onCloseLogin()
+                    window.open('/', '_self')
+                    
+                }}
+
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+            />
             
         </Box>
         </Container>

@@ -12,6 +12,11 @@ const USER_SETTING = {
     loading: false,
     urlPath: '',
     darkMode: false,
+    profilePic: '',
+    businessDraw: '',
+    isStaff: false,
+    isSuperuser: false,
+    friendsToChallenge: [],
 }
 
 export const USER_ACTION = {
@@ -21,6 +26,9 @@ export const USER_ACTION = {
     SET_URL_PATH: 'setUrlPath',
     SET_DARK_MODE: 'setDarkMode',
     LOADING_STATUS: 'loadingStatus',
+    BUSINESS_DRAW: 'businessDraw',
+    ADD_FRIENDS_TO_CHALLENGE: 'addFriendsToChallenge',
+    RESET_FRIENDS_TO_CHALLENGE: 'resetFriendsToChallenge'
 }
 
 
@@ -42,6 +50,9 @@ function userSettingReducer(userState, action) {
                 lastName: action.userData.last_name,
                 id: action.userData.id,
                 access: action.access,
+                profilePic: action.userData.userprofile.profile_pic_url,
+                isStaff: action.userData.is_staff,
+                isSuperuser: action.userData.is_superuser,
             }
         }
 
@@ -70,6 +81,26 @@ function userSettingReducer(userState, action) {
             return{
                 ...userState,
                 loading: action.loading,
+            }
+        }
+
+        case USER_ACTION.BUSINESS_DRAW:{
+            return{
+                ...userState,
+                businessDraw: action.businessDraw,
+            }
+        }
+        case USER_ACTION.ADD_FRIENDS_TO_CHALLENGE:{
+            return{
+                ...userState,
+                friendsToChallenge: action.friendsToChallenge
+            }
+        }
+
+        case USER_ACTION.RESET_FRIENDS_TO_CHALLENGE:{
+            return{
+                ...userState,
+                friendsToChallenge: [],
             }
         }
 }

@@ -5,14 +5,16 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './Layout/Layout';
 import LoginPage from './LoginPage/LoginPage';
-import { ME } from './urls';
+import { ME, REFRESH } from './urls';
 import { useEffect, useState } from 'react';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import Draw from './Draw/Draw';
 import { USER_ACTION, useUser, useUserDispatch } from './UserContext';
-import { ThemeProvider, createTheme, useMediaQuery } from '@mui/material';
+import { ThemeProvider, Typography, createTheme, useMediaQuery } from '@mui/material';
 import SignUp from './SignUp/SignUp';
+import BusinessPage from './BusinessPage/BusinessPage';
+import { BusinessProvider } from './BusinessContext';
 
 
 
@@ -32,69 +34,132 @@ function App() {
         palette: {
             mode: prefersDarkMode ? 'dark' : 'light',
             primary: {
-                main: '#869AB2',
-                dark: '#464A50',
-                light: '#A8A9AC',
+                main: '#74535E',
+                dark: '#543D46',
+                light: '#865C6A',
             },
             secondary:{
-                main: '#ad1457',
-                dark: '#790e3c',
-                light: '#bd4378',
+                main: '#F9F6ED',
+                dark: '#CFB4B9',
+                light: '#FFF4E2',
             }
+        },
+        typography: {
+            fontFamily: "'Quicksand', sans-serif",
         }
-    })
+    }
+    
+    )
 
 
-    useEffect(() => {
+    const sendRequest = (url) => {
         const token = localStorage.getItem('access')
-        if (token) {
-            axios.get(ME, { headers: { Authorization: `Bearer ${token}` } })
+        if (token){
+            axios.get(url, {headers: {Authorization: `Bearer ${token}`}})
                 .then((responseData) => {
-                    if (responseData.status !== 200) {
-                        // setUserData('')
-                        throw responseData.statusText
-                    } else {
-                        console.log(`ME request ${responseData}`)
+                    if (responseData.status === 200){
+                        console.log(`ME request`)
+                        console.log(responseData.data)
                         dispatch({
                             type: USER_ACTION.UPDATE_ME_RESULT,
                             userData: responseData.data,
                             access: true
-                        })
-                        if (prefersDarkMode !== user.darkMode) {
-                            dispatch({
-                                type: USER_ACTION.SET_DARK_MODE,
-                                darkMode: prefersDarkMode
-                            })
+                        })   
+                    }
+                    else{
+                        const refreshToken = localStorage.getItem('refresh')
+                        if (refreshToken){
+                            axios.post(REFRESH, {refresh: refreshToken})
+                                .then((response) => {
+                                    if (response.status === 200){
+                                        localStorage.setItem('access', response.data.access)
+                                        sendRequest(url)
+                                    }
+                                    else{
+                                        throw response.statusText
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.log(error.response.data.detail)
+                                })
                         }
-                        setUserData(responseData.data)
                     }
                 })
                 .catch((error) => {
-
+                    console.log(error.response.data.detail)
                 })
-        } else {
-
         }
+    }
 
+    useEffect(() => {
+        sendRequest(ME)
     }, [])
+
     return (
         <>
         <ThemeProvider theme={theme}>
+            <BusinessProvider>
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route path='profile/' element={<Profile />} />
                     {/* <Route path='profile/:UserId' element={<Profile/>}/> */}
-                    <Route path='draw/' element={<Draw />} />
+                    <Route path='draw/' element={<Draw />}>
+                        <Route path=':businessName' element={<BusinessPage/>}/>
+                    </Route>
                     {/* <Route path='login/' element={<LoginPage />} /> */}
                     {/* <Route path='signup/' element={<SignUp/>} /> */}
                 </Route>
                 
 
             </Routes>
+            </BusinessProvider>
         </ThemeProvider>
         </>
     );
 }
 
 export default App;
+
+
+
+// const sendRequest = (url) => {
+//     const token = localStorage.getItem('access')
+//     if (token) {
+//         axios.get(url, { headers: { Authorization: `Bearer ${token}` } })
+//             .then((responseData) => {
+//                 if (responseData.status !== 200) {
+//                     // setUserData('')
+//                     throw responseData.statusText
+//                 } else {
+//                     console.log(`ME request`)
+//                     console.log(responseData.data)
+//                     dispatch({
+//                         type: USER_ACTION.UPDATE_ME_RESULT,
+//                         userData: responseData.data,
+//                         access: true
+//                     })
+//                     if (prefersDarkMode !== user.darkMode) {
+//                         dispatch({
+//                             type: USER_ACTION.SET_DARK_MODE,
+//                             darkMode: prefersDarkMode
+//                         })
+//                     }
+//                     setUserData(responseData.data)
+//                 }
+//             })
+//             .catch((error) => {
+//                 const refreshToken = localStorage.getItem('refresh')
+//                 if (! refreshToken) {
+//                 // the user will have to perforn login
+//                 console.log('the user will have to perforn login')
+//                 } else {
+//                 axios.post(REFRESH, {refresh: refreshToken})
+//                 .then((responseData) => {
+//                     if (responseData.status === 200) {
+//                         localStorage.setItem('access', responseData.data.access)
+//                         sendRequest(url)
+//                     }
+//             })
+//             } })
+//         }}

@@ -75,9 +75,9 @@ export default function Layout() {
       }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{
-        backgroundColor: user.darkMode? '#000000' : '#ffffff',
+    <Box sx={{ flexGrow: 1, backgroundColor: '#865C6A', height: '100vh'}}>
+      <AppBar sx={{
+        // backgroundColor: user.darkMode? '#000000' : '#ffffff',
       }}>
         <Toolbar>
           <IconButton
@@ -97,10 +97,10 @@ export default function Layout() {
           >
             <Link to='/' className='logo-link' style={{
               textDecoration: 'none',
-              color: user.darkMode? '#ffffff' : '#231F20',
+              color: '#CFB4B9',
               fontWeight: '900',
               fontSize: '30px',
-              textShadow: user.darkMode? '-2px 2px 0px #636970' : '-2px 2px 0px #869AB2'
+              textShadow: '-2px 2px 0px #543D46'
               }}>TAKE ME</Link>
           </Typography>
           
@@ -110,11 +110,15 @@ export default function Layout() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User profile picture">
-                {user && user.firstName && user.lastName
-                    ? `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`
-                    : null}
+              { user && user.profilePic?
+                <Avatar alt="User profile picture" src={user.profilePic}/>
+                :user && user.firstName && user.lastName? 
+                <Avatar>
+                  `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`
                 </Avatar>
+                    : 
+                    <Avatar alt="User profile picture"/>}
+                
               </IconButton>
             </Tooltip>
             <Menu
@@ -180,7 +184,7 @@ export default function Layout() {
           transform: 'translate(50%)',
           right: '50%',
           // top: '-1rem',
-          top: '1%',
+          top: '-1rem',
           
           
       }}>

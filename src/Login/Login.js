@@ -16,7 +16,8 @@ const s = {
     },
     "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {textAlign: 'center'},
     width: '85%',
-    "& .MuiInputBase-input": {borderRadius: '30px'}
+    "& .MuiInputBase-input": {borderRadius: '30px'},
+    "& .MuiOutlinedInput-input":{borderRadius: '30px'}
 }
 
 
@@ -73,7 +74,8 @@ export default function Login({onCloseLogin}) {
         }
         catch(error){
             console.log(error)
-            setErrorText(error.result.data.detail)
+            console.log(error.response.data.detail)
+            setErrorText(error.response.data.detail)
         }
 
         

@@ -17,7 +17,8 @@ const s = {
     },
     "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {textAlign: 'center'},
     width: {xs: "100%", md: "85%"},
-    "& .MuiInputBase-input": {borderRadius: '30px'}
+    "& .MuiInputBase-input": {borderRadius: '30px'},
+    "& .MuiOutlinedInput-input":{borderRadius: '30px'}
 }
 
 export default function SignUp({onSignUp}) {

@@ -5,17 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './UserContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-  // <React.StrictMode>
+    <GoogleOAuthProvider clientId='550274521008-v682sl9vda1oetffmkvh98e1nebbvv6m.apps.googleusercontent.com'>
+ {/* <React.StrictMode> */}
     <BrowserRouter>
     <UserProvider>
     <App />
     </UserProvider>
     </BrowserRouter>
-  // </React.StrictMode>
+ {/* </React.StrictMode> */}
+  </GoogleOAuthProvider>
   
 );
 

@@ -28,54 +28,79 @@ export default function Home() {
       <Container fixed sx={{marginTop: 0, paddingTop: 20}}>
         <Box className='t-container' sx={{
           position: 'relative',
-        }}>  
+        }}> 
+        <Box sx={{
+            position: 'absolute',
+            width: {xs: '300px', md: '320px'},
+            height: {xs: '300px', md: '320px'},
+            backgroundColor: 'primary.main',
+            transform: 'translate(50%)',
+            right: '50%',
+            bottom: '20%',
+            borderRadius: '50%',
+            opacity: '0.5'
+            // zIndex: -1,
+          }}></Box>
+
           <Box className='back-poll' sx={{
             width: '100%',
-            height: '100%'
+            height: '100%',
+            // backgroundColor: 'primary.main',
+            position: 'relative',
+            
           }}>
           <Box className='poll'
             sx={{
                 margin: 'auto',
                 width: 45,
-                height:300,
+                height:350,
                 backgroundColor: 'primary.dark',
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                    opacity: [0.9, 0.8, 0.7],
-                },
                 borderRadius: '10px 10px 0px 0px',
                 display: 'flex',
             }}/>
             <Box className='line'
             sx={{
                 margin: 'auto',
-                maxWidth: 500,
-                border: '1px solid #000000',
+                maxWidth: 400,
+                border: '1px solid #74535E',
                 borderRadius: '5px',
             }}/>
           </Box>
+
+          
           <Box className='arrow' sx={{
             position: 'absolute',
             width: { xs: "300px", md: "320px" },
             height: 'min-content',
             // border: '2px solid gray',
             transform: 'translate(50%)',
-            right: '54%',
-            bottom: '8rem'
+            right: {xs: '56%', md: '54%'},
+            bottom: '10rem'
           }}>
-            <Box className='bitton-container'>
+            <Box className='button-container'>
           <Button sx={{
-            marginTop: 1, borderRadius: "30px", marginBottom: 2,
-            height: 60, width: 300, backgroundColor: "primary.dark", color: '#ffffff',
+            marginTop: 1, 
+            borderRadius: "30px", 
+            marginBottom: 2,
+            height: 60, 
+            width: 300, 
+            backgroundColor: "primary.dark", 
+            color: '#ffffff',
             '&:hover': {
               backgroundColor: '#2E3135',
           },
           }} 
-            variant="contained" size="large"
+            variant="contained" 
+            size="large"
             onClick={() => handleClick(CHALLENGEME)}><span className="less-than-entity">&#60;</span>Challenge me</Button>
           <Button sx={{
-            marginTop: 1, borderRadius: "30px",
-            height: 60, width: 300, marginLeft: { xs: 6, md: 10 }, backgroundColor: "primary.light",
+            marginTop: 3, 
+            borderRadius: "30px",
+            height: 60, 
+            width: 300, 
+            marginLeft: { xs: 6, md: 10 }, 
+            backgroundColor: "secondary.main", 
+            color: 'primary.dark',
             '&:hover': {
               backgroundColor: '#2E3135',
               color: '#ffffff'
