@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import './BusinessPage.css'
 import { Box, Container, Typography } from "@mui/material"
 import { BUSINESS_ACTION, useBusinessDispatch, useBusinessState } from "../BusinessContext";
@@ -13,11 +13,17 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconGrid from "../IconGrid/IconGris";
 import ChallengeAFriend from "../ChallengeAFriend/ChallengeAFriend";
+import { useParams } from 'react-router';
+import { BUSINESSVIEW } from "../urls";
+import axios from "axios";
 
 
 export default function BusinessPage() {
 
     const [checked, setChecked] = useState(false);
+    const params= useParams()
+    console.log(`params: ${params.businessId}`)
+    console.log(params)
 
     const iconStyle = {
         cursor: 'pointer',
@@ -39,6 +45,34 @@ export default function BusinessPage() {
         console.log(event.target.checked)
         setChecked(event.target.checked)
     }
+
+
+    useEffect(()=>{
+        const token = localStorage.getItem('access')
+        const drawBusiness = async () => {
+            try{
+                // console.log(`request to ${user.urlPath}`)
+                const response = await axios.get(BUSINESSVIEW + params.businessId + '/', token?{headers: {Authorization: `Bearer ${token}`}}:{})
+                console.log(response.data)
+                if (response.status !== 200){
+                    throw response.statusText
+                }
+                else{
+                    
+                    dispatch({
+                        type: BUSINESS_ACTION.NEW_BUSINESS_DRAW,
+                        business: response.data,
+                    })
+                    
+                }
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+        
+        drawBusiness()
+    }, [])
 
     return(
         <>
@@ -83,22 +117,22 @@ export default function BusinessPage() {
                 }}>
                     <Box className="business-container" sx={{
                         width: {xs: '100%', md: '90%'},
-                        height: 'inherit',
+                        // height: 'inherit',
                         // height: 'auto',
-                        // height: '110vh',
+                        height: '130vh',
                         backgroundColor: 'secondary.main',
                         margin: 'auto',
                         borderRadius: '15px 15px 0 0',
                         marginTop: '15px',
                     }}>
                         <Box className="top-portion" sx={{
-                            // height: '30%',
+                            height: {md: '30%', xs: '20%'},
                             width: '100%',
                             position: 'relative',
                         }}>
                             <Box className="business-profile-bg-image" sx={{
-                                height: {xs: '200px', sm: '250px',md: '300px'},
-                                // height: '80%',
+                                // height: {xs: '200px', sm: '250px',md: '300px'},
+                                height: '80%',
                                 width: '100%',
                                 background: 'gray',
                                 overflow: 'hidden',

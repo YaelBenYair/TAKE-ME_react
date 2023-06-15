@@ -14,6 +14,7 @@ import Login from "../Login/Login"
 import { GoogleLogin } from '@react-oauth/google';
 
 
+
 const s = {
     "& .MuiInputLabel-root": { color: 'green' },//styles the label
     "& .MuiOutlinedInput-root": {
@@ -23,6 +24,8 @@ const s = {
 }
 
 export default function LoginPage({onCloseLogin}) {
+
+    const dispatchUser = useUserDispatch()
 
     const [isSignup, setIsSignup] = useState(false)
     const [inpust, setInpust] = useState({
@@ -165,8 +168,13 @@ export default function LoginPage({onCloseLogin}) {
                         {headers: {'Authorization': credentialResponse.credential}})
                     localStorage.setItem('access', response.data.access);
                     localStorage.setItem('refresh', response.data.refresh);
+                    dispatchUser({
+                        type: USER_ACTION.SETTING_ACCESS_REFRESH,
+                        access: true,
+                    })
                     onCloseLogin()
-                    window.open('/', '_self')
+                    navigate('/')
+                    // window.open('/', '_self')
                     
                 }}
 

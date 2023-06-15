@@ -50,7 +50,7 @@ function userSettingReducer(userState, action) {
                 lastName: action.userData.last_name,
                 id: action.userData.id,
                 access: action.access,
-                profilePic: action.userData.userprofile.profile_pic_url,
+                profilePic: action.userData.userprofile? action.userData.userprofile.profile_pic_url : null,
                 isStaff: action.userData.is_staff,
                 isSuperuser: action.userData.is_superuser,
             }

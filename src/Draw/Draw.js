@@ -26,11 +26,7 @@ export default function Draw() {
                 }
                 else{
                     // setBusiness(response.data)
-                    dispatch({
-                        type: BUSINESS_ACTION.NEW_BUSINESS_DRAW,
-                        business: response.data,
-                    })
-                    navigate(`${response.data.name}`)
+                    navigate(`${response.data.business_id}`)
                 }
             }
             catch(error){

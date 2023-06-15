@@ -9,6 +9,7 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { USER_ACTION, useUser, useUserDispatch } from "../UserContext";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -30,6 +31,7 @@ export default function ChallengeAFriend() {
 
     const userReducer = useUser()
     const userDispatch = useUserDispatch()
+    const navigate = useNavigate()
 
     let option = []
 
@@ -59,6 +61,11 @@ export default function ChallengeAFriend() {
         console.log(select)
         const filterList = select.filter(user => userId !== user.id)
         setSelect(filterList)
+    }
+
+    const handleClickChallengeButton = () => {
+        console.log('challengeClick')
+        navigate('pop-challeng/')
     }
 
     useEffect(() => {
@@ -227,7 +234,7 @@ export default function ChallengeAFriend() {
                         alignItems: 'center',
                         marginTop: '20px',
                     }}>
-                        <Button variant="contained" sx={{
+                        <Button type="button" variant="contained" onClick={handleClickChallengeButton} sx={{
                             margin: 'auto',
                         }}>SEND CHALLENGE</Button>
                     </Box>

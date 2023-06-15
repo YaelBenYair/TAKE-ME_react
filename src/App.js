@@ -15,24 +15,27 @@ import { ThemeProvider, Typography, createTheme, useMediaQuery } from '@mui/mate
 import SignUp from './SignUp/SignUp';
 import BusinessPage from './BusinessPage/BusinessPage';
 import { BusinessProvider } from './BusinessContext';
+import PopChallenge from './PopChallenge/PopChallenge';
 
 
 
 
 function App() {
+    console.log('App component')
 
     const [userData, setUserData] = useState(null)
     const user = useUser()
     const dispatch = useUserDispatch()
 
-
+    // chack if the computer is in dark mode
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
     console.log(`mode ${prefersDarkMode}`)
     
 
     const theme = createTheme({
         palette: {
-            mode: prefersDarkMode ? 'dark' : 'light',
+            // mode: prefersDarkMode ? 'dark' : 'light',
+            mode: 'light',
             primary: {
                 main: '#74535E',
                 dark: '#543D46',
@@ -93,7 +96,7 @@ function App() {
 
     useEffect(() => {
         sendRequest(ME)
-    }, [])
+    }, [user.access])
 
     return (
         <>
@@ -105,7 +108,9 @@ function App() {
                     <Route path='profile/' element={<Profile />} />
                     {/* <Route path='profile/:UserId' element={<Profile/>}/> */}
                     <Route path='draw/' element={<Draw />}>
-                        <Route path=':businessName' element={<BusinessPage/>}/>
+                        <Route path=':businessId' element={<BusinessPage/>}>
+                            <Route path='pop-challeng/' element={<PopChallenge/>}/>
+                        </Route>
                     </Route>
                     {/* <Route path='login/' element={<LoginPage />} /> */}
                     {/* <Route path='signup/' element={<SignUp/>} /> */}
