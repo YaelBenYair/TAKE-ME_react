@@ -8,6 +8,7 @@ import { USER_ACTION, useUser, useUserDispatch } from "../UserContext"
 import { useNavigate } from "react-router-dom"
 import CloseIcon from '@mui/icons-material/Close';
 import { Visibility, VisibilityOff } from "@mui/icons-material"
+import PopUpComments from "../PopUpComments/PopUpComments"
 
 
 const s = {
@@ -21,7 +22,7 @@ const s = {
     "& .MuiOutlinedInput-input":{borderRadius: '30px'}
 }
 
-export default function SignUp({onSignUp}) {
+export default function SignUp({onSignUp, onCloseLogin}) {
     const [isSignup, setIsSignup] = useState(false)
     const [errorText, setErrorText] = useState("") 
     const [showPassword, setShowPassword] = useState(false);
@@ -74,7 +75,8 @@ export default function SignUp({onSignUp}) {
 
         try{
             const signupResponse = await axios.post(SIGNUP, state)
-            onSignUp()
+            // onSignUp()
+            setIsSignup(true)
         }catch(error){
             console.log(error)
         }
@@ -148,6 +150,10 @@ export default function SignUp({onSignUp}) {
                 <Button sx={{marginTop: 1, width: {xs: "100%", md: "85%"}, borderRadius: "30px", backgroundColor: "#464A50"}} 
                 type="submit" variant="contained" color="primary" size="large">Signup</Button>
                 </form>
+
+                {isSignup &&
+                    <PopUpComments username={state.email} password={state.password}/>
+                }
             
         </>
     )
