@@ -30,13 +30,13 @@ export default function ChallengeInput(props) {
             
             <TextField fullWidth
                 sx={s} 
-                name="last_name" 
+                name={props.inName}
                 // value={state.last_name} 
                 // onChange={} 
                 margin="normal" 
-                type="text" 
+                type={props.inType}
                 variant="outlined" 
-                placeholder="Last name" 
+                placeholder={props.inPlaceholder}
                 required/>
             
           </Grid>
