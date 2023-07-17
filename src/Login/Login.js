@@ -69,11 +69,7 @@ export default function Login({onCloseLogin}) {
                 type: USER_ACTION.SETTING_ACCESS_REFRESH,
                 access: true,
             })
-            // onCloseLogin()
-            dispatchUser({
-                type: USER_ACTION.HANDLE_POP_LOGIN,
-                popLogin: false,
-              });
+            onCloseLogin()
             navigate('/')
         }
         catch(error){

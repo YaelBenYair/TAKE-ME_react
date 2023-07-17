@@ -23,7 +23,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ChallengeAFriend() {
-
   const [popChallenge, setPopChallenge] = useState(false);
 
   const userReducer = useUser();
@@ -39,33 +38,36 @@ export default function ChallengeAFriend() {
   return (
     <>
       <Box>
+        <AddFriends />
 
-        <AddFriends/>
+        {userReducer.friendsToChallenge.length > 0 && (
+          <>
+            <Box width={'80%'} sx={{
+                margin: 'auto'
+            }}>
+              <ChallengDetails />
+            </Box>
 
-        {userReducer.friendsToChallenge.length > 0 &&
-        <>
-        <ChallengDetails/>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: "20px",
-          }}
-        >
-          <Button
-            type="button"
-            variant="contained"
-            onClick={handleClickChallengeButton}
-            sx={{
-              margin: "auto",
-            }}
-          >
-            SEND CHALLENGE
-          </Button>
-        </Box>
-        </>
-        }
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Button
+                type="button"
+                variant="contained"
+                onClick={handleClickChallengeButton}
+                sx={{
+                  margin: "auto",
+                }}
+              >
+                SEND CHALLENGE
+              </Button>
+            </Box>
+          </>
+        )}
 
         {popChallenge && <GeneralPopUp />}
       </Box>

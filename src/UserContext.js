@@ -1,4 +1,7 @@
 import { createContext, useContext, useReducer } from "react"
+import { useNavigate } from "react-router-dom"
+
+// export const navigate = useNavigate()
 
 const USER_SETTING = {
     id: null,
@@ -14,7 +17,6 @@ const USER_SETTING = {
     isStaff: false,
     isSuperuser: false,
     friendsToChallenge: [],
-    popLogin: false,
 }
 
 export const USER_ACTION = {
@@ -26,8 +28,7 @@ export const USER_ACTION = {
     LOADING_STATUS: 'loadingStatus',
     BUSINESS_DRAW: 'businessDraw',
     ADD_FRIENDS_TO_CHALLENGE: 'addFriendsToChallenge',
-    RESET_FRIENDS_TO_CHALLENGE: 'resetFriendsToChallenge',
-    HANDLE_POP_LOGIN: 'handlePopLogin',
+    RESET_FRIENDS_TO_CHALLENGE: 'resetFriendsToChallenge'
 }
 
 
@@ -100,13 +101,6 @@ function userSettingReducer(userState, action) {
             return{
                 ...userState,
                 friendsToChallenge: [],
-            }
-        }
-
-        case USER_ACTION.HANDLE_POP_LOGIN:{
-            return{
-                ...userState,
-                popLogin: action.popLogin,
             }
         }
 }

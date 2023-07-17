@@ -16,7 +16,6 @@ import SignUp from './SignUp/SignUp';
 import BusinessPage from './BusinessPage/BusinessPage';
 import { BusinessProvider } from './BusinessContext';
 import PopChallenge from './PopChallenge/PopChallenge';
-import Challenges from './Challenges/Challenges';
 
 
 
@@ -107,7 +106,6 @@ function App() {
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route path='profile/' element={<Profile />} />
-                    <Route path='challenges/' element={<Challenges />} />
                     {/* <Route path='profile/:UserId' element={<Profile/>}/> */}
                     <Route path='draw/' element={<Draw />}>
                         <Route path=':businessId' element={<BusinessPage/>}>

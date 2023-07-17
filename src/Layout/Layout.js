@@ -46,7 +46,6 @@ export default function Layout() {
   const user = useUser();
   const dispatch = useUserDispatch();
   console.log(user);
-  console.log(user.popLogin);
 
   const handleOpenUserMenu = (event) => {
     console.log(event.currentTarget);
@@ -64,27 +63,17 @@ export default function Layout() {
 
   const handleMenu = (event) => {
     setPopLogin(true);
-    dispatch({
-      type: USER_ACTION.HANDLE_POP_LOGIN,
-      popLogin: true,
-    });
     // navigate('login/')
     setAnchorEl(event.currentTarget);
   };
 
   const handleLoginClose = () => {
     setPopLogin(false);
-    dispatch({
-      type: USER_ACTION.HANDLE_POP_LOGIN,
-      popLogin: false,
-    });
   };
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#865C6A", height: "100vh" }}>
-      <AppBar position="static" sx={{
-        height: 'min-content'
-      }}>
+      <AppBar>
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -94,9 +83,28 @@ export default function Layout() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton> */}
-          {/*Hamburger menu*/}
-          <LogoTakeMe />
+          </IconButton> */}{/*Hamburger menu*/}
+          <LogoTakeMe/>
+          {/* <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "1", sm: "block" } }}
+          >
+            <Link
+              to="/"
+              className="logo-link"
+              style={{
+                textDecoration: "none",
+                color: "#CFB4B9",
+                fontWeight: "900",
+                fontSize: "30px",
+                textShadow: "-2px 2px 0px #543D46",
+              }}
+            >
+              TAKE ME
+            </Link>
+          </Typography> */}
 
           <SearchBusiness />
 
@@ -105,10 +113,7 @@ export default function Layout() {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {user && user.profilePic ? (
-                    <Avatar
-                      alt="User profile picture"
-                      src={user.profilePic ? user.profilePic : ""}
-                    />
+                    <Avatar alt="User profile picture" src={user.profilePic? user.profilePic : ""} />
                   ) : user && user.firstName && user.lastName ? (
                     <Avatar>
                       {user.firstName.charAt(0).toUpperCase()}
@@ -147,11 +152,6 @@ export default function Layout() {
                     <Typography textAlign="center">Profile</Typography>
                   </Link>
                 </MenuItem>
-                <MenuItem key="challenges" onClick={handleCloseUserMenu}>
-                  <Link to="challenges/">
-                    <Typography textAlign="center">Challenges</Typography>
-                  </Link>
-                </MenuItem>
                 <MenuItem key="Logout">
                   <Typography textAlign="center">
                     <a href="" onClick={() => localStorage.clear()}>
@@ -179,7 +179,7 @@ export default function Layout() {
           )}
         </Toolbar>
       </AppBar>
-      {user.popLogin ? (
+      {popLogin ? (
         <Box
           sx={{
             position: "relative",
@@ -205,9 +205,7 @@ export default function Layout() {
           </Box>
         </Box>
       ) : (
-        
         <Outlet />
-        
       )}
     </Box>
   );

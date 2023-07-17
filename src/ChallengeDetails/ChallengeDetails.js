@@ -30,16 +30,24 @@ export default function ChallengDetails() {
           inPlaceholder={"dd/mm/yy"}
         />
         <ChallengeInput
-          inName={"challenge_name"}
+          inName={"description"}
           inType={"text"}
-          inPlaceholder={"Challenge name"}
+          inPlaceholder={"Description"}
+          inSx={{"& .MuiOutlinedInput-root": {
+            "& > fieldset": { borderRadius: "30px", border: "3px solid #A7A9AC", height: '135px' },
+          },}}
+        />
+        <ChallengeInput
+          inName={"category"}
+          inType={"text"}
+          inPlaceholder={"Category"}
         />
         <ChallengeInput
           inName={"challenge_name"}
-          inType={"text"}
+          inType={"time"}
           inPlaceholder={"Challenge name"}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["TimePicker"]}>
             <TimePicker
               label="Controlled picker"
@@ -47,7 +55,7 @@ export default function ChallengDetails() {
               onChange={(newValue) => setValue(newValue)}
             />
           </DemoContainer>
-        </LocalizationProvider>
+        </LocalizationProvider> */}
       </Grid>
     </Box>
   );

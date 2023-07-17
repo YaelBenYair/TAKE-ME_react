@@ -2,7 +2,7 @@ import axios from "axios"
 import { useReducer, useState } from "react"
 import { LOGIN, SIGNUP } from "../urls"
 import { Box, Button, Container, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
-import styled from "styled-components"
+// import styled from "styled-components"
 import { blue } from "@mui/material/node/colors"
 import { USER_ACTION, useUser, useUserDispatch } from "../UserContext"
 import { useNavigate } from "react-router-dom"
@@ -158,7 +158,6 @@ export default function SignUp({onSignUp, onCloseLogin}) {
         </>
     )
 }
-
 
 
 
